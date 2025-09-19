@@ -1,0 +1,33 @@
+{
+  "name": "discordbot-ts-template",
+  "version": "1.0.0",
+  "description": "Template for an discord bot project with typescript.",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "tsc && node .",
+    "build": "tsc",
+    "register": "tsc && node dist/deploy-commands.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Under-scape/discordbot-ts-template.git"
+  },
+  "keywords": [
+    "discordjs",
+    "typescript",
+    "bot"
+  ],
+  "author": "TheDreWen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Under-scape/discordbot-ts-template/issues"
+  },
+  "homepage": "https://github.com/Under-scape/discordbot-ts-template#readme",
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "discord.js": "^14.22.1",
+    "dotenv": "^17.2.2"
+  }
+}
