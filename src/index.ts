@@ -2,6 +2,7 @@ import { Client, Collection, Events, GatewayIntentBits, MessageFlags } from "dis
 import { configDotenv } from "dotenv";
 import path from "path";
 import fs from "fs";
+import { CommandDefinition } from "./type";
 
 configDotenv();
 
@@ -14,8 +15,7 @@ const client = new Client({
     ]
 });
 
-// @ts-expect-error
-client.commands = new Collection();
+const commands = new Collection<string, CommandDefinition>();
 
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
@@ -28,8 +28,7 @@ for (const folder of commandFolders) {
 		const command = require(filePath);
         const commandModule = command.default || command;
 		if ('data' in commandModule && 'execute' in commandModule) {
-            // @ts-expect-error
-			client.commands.set(commandModule.data.name, commandModule);
+			commands.set(commandModule.data.name, commandModule);
 		} else {
 			console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
 		}
@@ -37,10 +36,23 @@ for (const folder of commandFolders) {
 }
 
 client.on(Events.InteractionCreate, async interaction => {
+
+	if(interaction.isButton()) {
+		const id = interaction.customId;
+		commands.forEach((value) => {
+			if(value.buttons) {
+				const button = value.buttons.filter((b) => b.id == id);
+				if(button.length == 1) {
+					button[0]?.handle(interaction);
+				}
+			}
+		});
+		return;
+	}
+
 	if (!interaction.isChatInputCommand()) return;
 
-    // @ts-expect-error
-	const command = interaction.client.commands.get(interaction.commandName);
+	const command = commands.get(interaction.commandName);
 
 	if (!command) {
 		console.error(`No command matching ${interaction.commandName} was found.`);
