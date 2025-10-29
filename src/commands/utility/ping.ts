@@ -5,7 +5,7 @@ const cmd : CommandDefinition = {
     data: new SlashCommandBuilder()
         .setName('ping')
         .setDescription('Pong again!'),
-    async execute(interaction : ChatInputCommandInteraction) {
+    async execute(interaction) {
         await interaction.reply('Pong !');
     }
 }
