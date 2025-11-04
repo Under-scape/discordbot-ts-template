@@ -69,5 +69,41 @@ For production:
 npm run start
 ```
 
+## Docker Production Deployment
+
+### Build and Deploy
+Build the Docker image and run the container:
+```bash
+docker buildx build -t discord-bot . && docker run -d --restart unless-stopped --name discord-bot discord-bot
+```
+
+### Container Management
+
+**Stop the container:**
+```bash
+docker stop discord-bot
+```
+
+**Start the container (after stop):**
+```bash
+docker start discord-bot
+```
+
+**View container logs:**
+```bash
+docker logs -f discord-bot
+```
+
+**Remove the container:**
+```bash
+docker rm discord-bot
+```
+
+### Complete Rebuild
+Stop, remove, rebuild and redeploy:
+```bash
+docker stop discord-bot && docker rm discord-bot && docker buildx build -t discord-bot . && docker run -d --restart unless-stopped --name discord-bot discord-bot
+```
+
 ---
 **Note**: This template is based on community best practices and has been customized for Discord bot development.
