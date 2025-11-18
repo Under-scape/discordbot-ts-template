@@ -1,7 +1,11 @@
-FROM node:22
+FROM node:latest
 
-COPY . .
+WORKDIR /app
 
-RUN npm i
+COPY . /app
+
+RUN npm i && \
+    npm run build && \
+    npm run register
 
 CMD [ "npm", "run", "start" ]
