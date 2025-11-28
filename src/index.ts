@@ -50,6 +50,19 @@ client.on(Events.InteractionCreate, async interaction => {
 		return;
 	}
 
+	if(interaction.isModalSubmit()) {
+		const id = interaction.customId;
+		commands.forEach((value) => {
+			if(value.modals) {
+				const button = value.modals.filter((b) => b.id == id);
+				if(button.length == 1) {
+					button[0]?.handle(interaction);
+				}
+			}
+		});
+		return;
+	}
+
 	if (!interaction.isChatInputCommand()) return;
 
 	const command = commands.get(interaction.commandName);
