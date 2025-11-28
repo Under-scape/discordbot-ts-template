@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . /app
 
-RUN npm i && \
+RUN npm clean-install && \
     npm run build && \
     npm run register
 
